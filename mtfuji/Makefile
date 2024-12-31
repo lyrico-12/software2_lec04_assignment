@@ -1,11 +1,12 @@
 CC = gcc
+CPPFLAGS = -I./include
 CFLAGS = -Wall
 LDLIBS = -lm
-OBJS = mtfuji.o func.o optimize1.o
+OBJS = src/mtfuji.o src/func.o src/optimize1.o
 TARGET = mtfuji
 
-$(TARGET): $(OBJS)
-	$(CC) -o $@ $^ $(LDLIBS)
+bin/$(TARGET): $(OBJS)
+	$(CC) $(CPPFLAGS) -o $@ $^ $(LDLIBS)
 
 .PHONY: tmpclean clean
 tmpclean:

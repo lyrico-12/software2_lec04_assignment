@@ -5,7 +5,7 @@
 #include "optimize1.h"
 
 int main() {
-    char filename[] = "data.csv";
+    char filename[] = "src/data.csv";
     Sample* head = NULL;
 
     init_sample(&head, filename);
