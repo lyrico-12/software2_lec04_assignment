@@ -10,12 +10,10 @@ Sample* push_back(Sample* head, char* loc, double alt, double temp);
 
 void print_linear_list(Sample* head);
 
-char* get_loc(Sample*);
-double get_alt(Sample*);
-double get_temp(Sample*);
 size_t sample_size();
 
 void free_sample(Sample*);
+void free_list(Sample*);
 
 
 int f_dimension();

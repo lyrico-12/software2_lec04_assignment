@@ -70,16 +70,6 @@ void print_linear_list(Sample* head) {
     }
 }
 
-char* get_loc(Sample* s){
-    return s->loc;
-}
-double get_alt(Sample* s){
-    return s->alt;
-}
-double get_temp(Sample* s) {
-    return s->temp;
-}
-
 size_t sample_size() {
     return sizeof(Sample);
 }
@@ -87,6 +77,15 @@ size_t sample_size() {
 void free_sample(Sample* s) {
     free(s->loc);
     free(s);
+}
+
+void free_list(Sample* head) {
+    Sample* cur = head;
+    while (cur != NULL) {
+        Sample* next = cur->next;
+        free_sample(cur);
+        cur = next;
+    }
 }
 
 double predicted_temp(const double a[], double alt) {
@@ -99,9 +98,9 @@ void f_gradient(const double a[], double g[], Sample* head) {
     double g1 = 0.0;
 
     while (cur != NULL) {
-        g0 += -2.0 * a[0] * (cur->temp - a[0] * cur->alt - a[1]);
+        g0 += -2.0 * cur->alt * (cur->temp - a[0] * cur->alt - a[1]);
         g[0] = g0;
-        g1 += 2.0 * (cur->temp - a[0] * cur->alt - a[1]);
+        g1 += -2.0 * (cur->temp - a[0] * cur->alt - a[1]);
         g[1] = g1;
 
         cur = cur->next;

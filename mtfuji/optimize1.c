@@ -14,14 +14,14 @@ int optimize(double a[], const double alpha, Sample* head, void (*calc_grad)(con
 
     
     int ite = 0;// 繰り返し
-    while (++ite < 100) {
+    while (++ite < 10000) {
         (*calc_grad)(a, g, head);
 
         const double e = f_value(a, head);
         const double norm = calc_norm(g);
 
         printf("%3d norm = %7.4f, a = %7.4f, b = %7.4f, E = %f\n", ite, norm, a[0], a[1], e);
-        if (norm < 0.01) {
+        if (norm < 0.001) {
             break;
         }
 

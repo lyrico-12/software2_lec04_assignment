@@ -15,13 +15,14 @@ int main() {
 
     double a[2];
     a[0] = 1.0;
-    a[1] = 1.0;
+    a[1] = 20.0;
 
     const int iter = optimize(a, alpha, head, f_gradient, f_value);
 
     printf("number of iteration = %d\n", iter);
 
-    printf("predicted Mt.fuji temperature = %f", predicted_temp(a, 3.776));
+    printf("predicted Mt.fuji temperature = %f\n", predicted_temp(a, 3.776));
 
+    free_list(head);
     return 0;
 }
