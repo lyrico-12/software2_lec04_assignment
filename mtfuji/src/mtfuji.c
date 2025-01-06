@@ -9,7 +9,7 @@ int main() {
     Sample* head = NULL;
 
     init_sample(&head, filename);
-    print_linear_list(head);
+    sort_linear_list(&head, comp_alt);
 
     const double alpha = 0.01;
 
@@ -23,6 +23,8 @@ int main() {
 
     printf("predicted Mt.fuji temperature = %f\n", predicted_temp(a, 3.776));
 
+    printf("------sorted by altitude------\n");
+    print_linear_list(head);
     free_list(head);
     return 0;
 }

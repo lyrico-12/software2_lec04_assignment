@@ -23,3 +23,6 @@ double predicted_temp(const double a[], double alt);
 void f_gradient(const double a[], double g[], Sample* head);
 
 double f_value(const double a[], Sample* head);
+
+int comp_alt(const void*, const void*);
+void sort_linear_list(Sample** head, int (*comp)(const void*, const void*));

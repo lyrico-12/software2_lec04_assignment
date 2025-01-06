@@ -116,3 +116,41 @@ double f_value(const double a[], Sample* head) {
     }
     return res;
 }
+
+int comp_alt(const void* a, const void* b) {
+    const Sample* sa = *(const Sample**)a;
+    const Sample* sb = *(const Sample**)b;
+    return (sa->alt > sb->alt) - (sa->alt < sb->alt);
+}
+
+void sort_linear_list(Sample** head, int (*comp)(const void*, const void*)) {
+    Sample* cur = *head;
+    int count = 0;
+
+    // 線形リストの要素数をカウント
+    while (cur) {
+        count++;
+        cur = cur->next;
+    }
+
+    // 配列にコピー
+    Sample** arr = (Sample**)malloc(count * sizeof(Sample));
+    cur = *head;
+    for (int i = 0; i < count; i++) {
+        arr[i] = cur;
+        cur = cur->next;
+    }
+
+    // ソート
+    qsort(arr, count, sizeof(Sample*), comp);
+    
+    // 戻す
+    *head = arr[0];
+    cur = *head;
+    for (int i = 0; i < count; i++) {
+        cur->next = arr[i];
+        cur = cur->next;
+    }
+    cur->next = NULL;
+    free(arr);
+}
