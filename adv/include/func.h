@@ -20,6 +20,9 @@ double sse_value(const double a[4], int len, const double dataset[len][5]);
 // sse_valueの勾配ベクトル
 void gradient(const double a[4], double g[4], int len, const double dataset[len][5]);
 
+// 目的変数の予測値
+double predicted_y(const double a[4], const double data[5]);
+
 // 決定係数を求めるための関数たち
 double calc_mean(int len, const double dataset[len][5]);
 double calc_rss(const double a[], int len, const double dataset[len][5]);
