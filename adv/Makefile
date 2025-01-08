@@ -2,7 +2,7 @@ CC = gcc
 CPPFLAGS = -I./include
 CFLAGS = -Wall
 LDLIBS = -lm
-OBJS = src/adv_regression.o src/func.o src/optimize.o
+OBJS = src/adv_regression.o src/func.o src/optimize.o src/standerdization.o
 TARGET = adv
 
 bin/$(TARGET): $(OBJS)

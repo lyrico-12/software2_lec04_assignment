@@ -154,13 +154,14 @@ void gradient(const double a[4], double g[4], int len, const double dataset[len]
 }
 
 double calc_mean(int len, const double dataset[len][5]) {
-    double mean = 0.0;
+    double sum = 0.0;
     for (int i = 0; i < len; i++) {
-        mean += dataset[i][4];
+        sum += dataset[i][4];
     }
-    return mean / (double)len;
+    return sum / (double)len;
 }
 
+// 残差平方和(RSS)
 double calc_rss(const double a[], int len, const double dataset[len][5]) {
     double rss = 0.0;
     for (int i = 0; i < len; i++) {
@@ -168,11 +169,12 @@ double calc_rss(const double a[], int len, const double dataset[len][5]) {
         for (int j = 0; j < 4; j++) {
             predict_y += a[j] * dataset[i][j];
         }
-        rss += (dataset[len][4] - predict_y) * (dataset[len][4] - predict_y);
+        rss += (dataset[i][4] - predict_y) * (dataset[i][4] - predict_y);
     }
     return rss;
 }
 
+// 総平方和(TSS)
 double calc_tss(int len, const double dataset[len][5]) {
     double mean = calc_mean(len, dataset);
 
@@ -183,6 +185,7 @@ double calc_tss(int len, const double dataset[len][5]) {
     return tss;
 }
 
+// 決定係数を求める
 double calc_cod(double rss, double tss) {
     return 1.0 - (rss / tss);
 }

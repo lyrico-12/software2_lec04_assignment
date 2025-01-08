@@ -3,6 +3,7 @@
 #include <string.h>
 #include "func.h"
 #include "optimize.h"
+#include "standerdization.h"
 
 int main() {
     char filename[] = "src/AdsBud_and_Sales.csv";
@@ -16,8 +17,28 @@ int main() {
     int test_len = list_len(head) - train_len;
     double traindata[train_len][5];
     double testdata[test_len][5];
+
     // データを分割
     split_data(head, train_p, testdata, traindata);
+
+    // それぞれ標準化
+    standerdization(train_len, traindata);
+    standerdization(test_len, testdata);
+
+    for (int i = 0; i < train_len; i++) {
+        printf("traindata[%d]: ", i);
+        for (int j = 0; j < 5; j++) {
+            printf("%7.4f, ",traindata[i][j]);
+        }
+        printf("\n");
+    }
+    for (int i = 0; i < test_len; i++) {
+        printf("testdata[%d]: ", i);
+        for (int j = 0; j < 5; j++) {
+            printf("%7.4f, ",testdata[i][j]);
+        }
+        printf("\n");
+    }
 
     const double alpha = 0.01;
 

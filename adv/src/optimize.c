@@ -27,7 +27,7 @@ int optimize(double a[4], double alpha, int len, double dataset[len][5], void (*
         const double norm = calc_norm(g);
 
         // 繰り返し回数が10の倍数だったら表示する
-        if (iter < 10) {
+        if (iter % 10 == 0) {
             printf("%3d norm = %7.4f", iter, norm);
             for (int i = 0; i < 4; i++) {
                 printf(", a[%d] = %7.4f", i, a[i]);
