@@ -86,3 +86,95 @@ void init_data(Data** head, char* filename) {
     }
     fclose(fp);
 }
+
+// データを分割する関数。訓練データの割合をalphaとする
+void split_data(Data* head, double alpha, double test[][5], double train[][5]){
+    int len = list_len(head);
+    int train_end_idx = (int) (alpha * len);
+
+    Data* cur = head;
+    int i = 0;
+    while (cur != NULL) {
+        if (i < train_end_idx) {
+            train[i][0] = 1.0;
+            for (int j = 1; j < 4; j++) {
+                train[i][j] = cur->x[j - 1];
+            }
+            train[i][4] = cur->y;
+        } else {
+            test[i - train_end_idx][0] = 1.0;
+            for (int j = 1; j < 4; j++) {
+                test[i - train_end_idx][j] = cur->x[j - 1];
+            }
+            test[i - train_end_idx][4] = cur->y;
+        }
+        i++;
+        cur = cur->next;
+    }
+}
+
+// 損失関数はSum of Square Errorsを用いる
+// predict_y = a[0] * x0 + a[1] * x1 + a[2] * x2 + a[3] * x3 (x0 = 1)
+double sse_value(const double a[4], int len, const double dataset[len][5]) {
+    double res = 0.0;
+    for (int i = 0; i < len; i++) {
+        double predict_y = 0.0;
+        for (int j = 0; j < 4; j++) {
+            predict_y += a[j] * dataset[i][j];
+        }
+        res += (dataset[i][4] - predict_y) * (dataset[i][4] - predict_y);
+    }
+    return (1.0 / 2.0 * len) * res;
+}
+
+// sse_valueの勾配ベクトルの計算
+void gradient(const double a[4], double g[4], int len, const double dataset[len][5]) {
+    for (int i = 0; i < 4; i++) {
+        g[i] = 0.0;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        double predict_y = 0.0;
+        for (int j = 0; j < len; j++) {
+            for (int k = 0; k < 4; k++) {
+                predict_y += a[k] * dataset[j][k];
+            }
+            g[i] += (dataset[j][4] - predict_y) * (dataset[j][4] - predict_y);
+        }
+        g[i] *= -1.0 / len;
+    } 
+}
+
+double calc_mean(int len, const double dataset[len][5]) {
+    double mean = 0.0;
+    for (int i = 0; i < len; i++) {
+        mean += dataset[i][4];
+    }
+    return mean / (double)len;
+}
+
+double calc_rss(const double a[], int len, const double dataset[len][5]) {
+    double rss = 0.0;
+    for (int i = 0; i < len; i++) {
+        double predict_y = 0.0;
+        for (int j = 0; j < 4; j++) {
+            predict_y += a[j] * dataset[i][j];
+        }
+        rss += (dataset[len][4] - predict_y) * (dataset[len][4] - predict_y);
+    }
+    return rss;
+}
+
+double calc_tss(int len, const double dataset[len][5]) {
+    double mean = calc_mean(len, dataset);
+
+    double tss = 0.0;
+    for (int i = 0; i < len; i++) {
+        tss += (dataset[i][4] - mean) * (dataset[i][4] - mean);
+    }
+    return tss;
+}
+
+double calc_cod(double rss, double tss) {
+    return 1.0 - (rss / tss);
+}
