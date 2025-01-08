@@ -19,22 +19,6 @@ int main() {
     // データを分割
     split_data(head, train_p, testdata, traindata);
 
-    // for (int i = 0; i < train_len; i++) {
-    //     printf("traindata[%d]: ", i);
-    //     for (int j = 0; j < 5; j++) {
-    //         printf("%7.4f, ",traindata[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-
-    // for (int i = 0; i < test_len; i++) {
-    //     printf("testdata[%d]: ", i);
-    //     for (int j = 0; j < 5; j++) {
-    //         printf("%7.4f, ",testdata[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-
     const double alpha = 0.01;
 
     // traindataの回帰分析
@@ -59,6 +43,8 @@ int main() {
 
     printf("train data: number of iteration = %d, R^2 = %7.4f\n", iter1, r2_1);
     printf("test data: number of iteration = %d, R^2 = %7.4f\n", iter2, r2_2);
+
+    free_data(head);
 
     return 0;
 }

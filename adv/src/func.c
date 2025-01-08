@@ -58,6 +58,14 @@ int list_len(Data* head) {
     return c;
 }
 
+void free_data(Data* head) {
+    while (head != NULL) {
+        Data* cur = head;
+        head = head->next;
+        free(cur);
+    }
+}
+
 void init_data(Data** head, char* filename) {
     FILE* fp = fopen(filename, "r");
     if (fp == NULL) {
@@ -133,16 +141,16 @@ void gradient(const double a[4], double g[4], int len, const double dataset[len]
         g[i] = 0.0;
     }
 
-    for (int i = 0; i < 4; i++) {
-        double predict_y = 0.0;
-        for (int j = 0; j < len; j++) {
-            for (int k = 0; k < 4; k++) {
-                predict_y += a[k] * dataset[j][k];
+    for (int j = 0; j < 4; j++) {
+        for (int k = 0; k < len; k++) {
+            double predict_y = 0.0;
+            for (int i = 0; i < 4; i++) {
+                predict_y += a[i] * dataset[k][i];
             }
-            g[i] += (dataset[j][4] - predict_y) * (dataset[j][4] - predict_y);
+            g[j] += (dataset[k][4] - predict_y) * dataset[k][j];
         }
-        g[i] *= -1.0 / len;
-    } 
+        g[j] *= -1.0 / (double)len;
+    }
 }
 
 double calc_mean(int len, const double dataset[len][5]) {
