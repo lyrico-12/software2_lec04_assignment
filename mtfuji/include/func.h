@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdlib.h>
-
 typedef struct sample Sample;
 
 char* trim_space(char* str);
